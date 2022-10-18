@@ -1,6 +1,6 @@
 class DataNode<T> {
   public value: T;
-  public next?: DataNode<T>;
+  public next: DataNode<T> | null = null;
 
   public constructor(value: T) {
     this.value = value;
@@ -8,12 +8,12 @@ class DataNode<T> {
 }
 
 class LinkedList<T> {
-  private head?: DataNode<T>;
-  private tail?: DataNode<T>;
+  private head: DataNode<T> | null = null;
+  private tail: DataNode<T> | null = null;
 
   public insert(val: T) {
     const newNode = new DataNode(val);
-    if (this.head === undefined || this.tail === undefined) {
+    if (this.head === null || this.tail === null) {
       this.head = newNode;
       this.tail = newNode;
       return;
@@ -37,7 +37,7 @@ class LinkedList<T> {
 
     let counter = 0;
     let currentNode = this.head;
-    while (counter <= index && currentNode !== undefined) {
+    while (counter <= index && currentNode !== null) {
       if (counter === index - 1) {
         const oldNext = currentNode.next;
         currentNode.next = newNode; // here, index + 1 equals to new node, to cancel: index - 1 in if statement
@@ -53,7 +53,7 @@ class LinkedList<T> {
   public valueAt(index: number): T {
     let counter = 0;
     let currentNode = this.head;
-    while (counter <= index && currentNode !== undefined) {
+    while (counter <= index && currentNode !== null) {
       if (index === counter) {
         return currentNode.value;
       }
@@ -66,7 +66,7 @@ class LinkedList<T> {
   public collect(): T[] {
     const arr: T[] = [];
     let currentNode = this.head;
-    while (currentNode !== undefined) {
+    while (currentNode !== null) {
       arr.push(currentNode.value);
       currentNode = currentNode.next;
     }
@@ -76,15 +76,12 @@ class LinkedList<T> {
 
 const list = new LinkedList<number>();
 
-console.log(list.collect());
 list.insert(1);
 list.insert(2);
 list.insert(3);
-console.log(list.collect());
-console.log(list);
 list.insertAt(10, 3);
+console.log(list.valueAt(2));
 console.log(list.collect());
-console.log(list.valueAt(4));
 
 // ?? if the thing on the left is not undefined or null, take that; but if it is undefined or null, take what is on the right
 // another method: deleteAt()
